@@ -6,8 +6,9 @@ dbaeumer.vscode-eslint
 esbenp.prettier-vscode
 formulahendry.auto-close-tag
 
-# AI assistant
+# AI assistants
 genieai.chatgpt-vscode
+saoudrizwan.claude-dev
 
 # PHP & WordPress support
 junstyle.php-cs-fixer

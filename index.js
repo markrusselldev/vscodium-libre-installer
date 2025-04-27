@@ -1,13 +1,26 @@
 #!/usr/bin/env node
 
 /**
- * VSIX Installer for VSCodium (cross-platform)
+ * VSIX Installer for VSCodium (one-shot)
  */
 import fs from "fs";
 import path from "path";
 import axios from "axios";
 import { execSync } from "child_process";
-import cron from "node-cron"; // ← our scheduler
+
+// Override console.log to prepend ISO 8601 timestamp
+const originalLog = console.log;
+console.log = (...args) => {
+  const timestamp = new Date().toISOString();
+  originalLog(`[${timestamp}]`, ...args);
+};
+
+// Override console.error to prepend ISO 8601 timestamp
+const originalError = console.error;
+console.error = (...args) => {
+  const timestamp = new Date().toISOString();
+  originalError(`[${timestamp}]`, ...args);
+};
 
 // Detect CLI binary
 const isWin = process.platform === "win32";
@@ -16,7 +29,6 @@ const CODE_CLI = isWin ? "codium.cmd" : "codium";
 const CONFIG = "extensions.list";
 const TMP_DIR = ".vsix_tmp";
 
-// 1) The installer function
 async function installExtensions() {
   if (!fs.existsSync(CONFIG)) {
     console.error(`❌ Missing ${CONFIG}`);
@@ -53,23 +65,15 @@ async function installExtensions() {
 
   fs.rmdirSync(TMP_DIR);
   if (failures.length) {
-    console.error(`\n⚠️ Failed to install: ${failures.join(", ")}`);
+    console.error(`⚠️ Failed to install: ${failures.join(", ")}`);
     process.exit(1);
   } else {
-    console.log("\n🎉 All extensions installed!");
+    console.log("🎉 All extensions installed!");
   }
 }
 
-// 2) Run immediately on invocation
+// Run once and exit
 installExtensions().catch(err => {
   console.error("Fatal:", err);
   process.exit(1);
-});
-
-// 3) Schedule weekly update (Monday @ 03:00)
-cron.schedule("0 3 * * 1", () => {
-  console.log("🕒 Weekly extension update triggered by node-cron");
-  installExtensions().catch(err => {
-    console.error("Scheduled update failed:", err);
-  });
 });

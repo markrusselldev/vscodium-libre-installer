@@ -1,0 +1,28 @@
+# Node dependencies
+node_modules/
+
+# Temporary VSIX download folder
+.vsix_tmp/
+
+# Environment files
+.env
+
+# Logs
+npm-debug.log*
+yarn-error.log*
+pm2*.log
+
+# MacOS Finder files
+.DS_Store
+
+# Build outputs
+dist/
+build/
+coverage/
+
+# IDE/editor folders
+.vscode/
+.idea/
+
+# Hidden
+.zzz

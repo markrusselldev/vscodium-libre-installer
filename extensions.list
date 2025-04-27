@@ -1,0 +1,14 @@
+# One extension ID per line: publisher.extension
+# Comments start with '#'
+
+# JavaScript tooling
+dbaeumer.vscode-eslint
+esbenp.prettier-vscode
+formulahendry.auto-close-tag
+
+# AI assistant
+genieai.chatgpt-vscode
+
+# PHP & WordPress support
+junstyle.php-cs-fixer
+wordpresstoolbox.wordpress-toolbox
